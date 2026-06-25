@@ -8,6 +8,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import com.vaultia.app.core.model.vault.VaultSessionState
 import com.vaultia.app.core.session.InMemorySessionManager
+import com.vaultia.app.feature.vault.ui.VaultHomeShell
 
 object BootstrapScreen {
     fun create(
@@ -81,6 +82,10 @@ object BootstrapScreen {
             root.addView(description)
             root.addView(stateLabel)
             root.addView(actionButton)
+
+            if (isUnlocked) {
+                root.addView(VaultHomeShell.create(context))
+            }
         }
 
         render()
