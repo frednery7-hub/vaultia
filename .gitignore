@@ -68,3 +68,9 @@ out/
 # Do not commit local evidence with private data
 evidence/private/
 screenshots/private/
+
+# Android local USB runtime/cache directories
+.android-home/
+.android-avd/
+.gradle-user-home/
+tools/android/
