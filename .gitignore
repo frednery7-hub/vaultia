@@ -74,3 +74,9 @@ screenshots/private/
 .android-avd/
 .gradle-user-home/
 tools/android/
+.tmp/
+releases/android/*.apk
+docs/evidence/**/*.png
+docs/evidence/**/*.jpg
+docs/evidence/**/*.jpeg
+docs/evidence/**/*.webp
