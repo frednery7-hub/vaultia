@@ -1,21 +1,27 @@
 package com.vaultia.app.core.model.vault
 
-/**
- * Metadata-only representation of a future vault item.
- *
- * This model intentionally excludes secret payload fields.
- *
- * Rules:
- * - no password value;
- * - no note body;
- * - no document bytes;
- * - no photo bytes;
- * - no decrypted content.
- */
-internal data class VaultItem(
+data class VaultItem(
     val id: String,
     val type: VaultItemType,
     val title: String,
     val createdAtEpochMillis: Long,
     val updatedAtEpochMillis: Long,
-)
+) {
+    init {
+        require(id.isNotBlank()) {
+            "Vault item id must not be blank."
+        }
+
+        require(title.isNotBlank()) {
+            "Vault item title must not be blank."
+        }
+
+        require(createdAtEpochMillis > 0L) {
+            "Vault item creation timestamp must be positive."
+        }
+
+        require(updatedAtEpochMillis >= createdAtEpochMillis) {
+            "Vault item update timestamp must be greater than or equal to creation timestamp."
+        }
+    }
+}

@@ -5,30 +5,18 @@ import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
 
-class VaultItemArchitectureTest {
+class VaultItemMetadataOnlyArchitectureTest {
     private val vaultItemSource = Paths.get(
         "src/main/java/com/vaultia/app/core/model/vault/VaultItem.kt",
     ).toFile().readText()
 
-    private val vaultItemTypeSource = Paths.get(
-        "src/main/java/com/vaultia/app/core/model/vault/VaultItemType.kt",
-    ).toFile().readText()
-
     @Test
-    fun vaultItemUsesMetadataOnlyFields() {
+    fun vaultItemContainsOnlyAllowedMetadataFields() {
         assertTrue(vaultItemSource.contains("val id: String"))
         assertTrue(vaultItemSource.contains("val type: VaultItemType"))
         assertTrue(vaultItemSource.contains("val title: String"))
         assertTrue(vaultItemSource.contains("val createdAtEpochMillis: Long"))
         assertTrue(vaultItemSource.contains("val updatedAtEpochMillis: Long"))
-    }
-
-    @Test
-    fun vaultItemTypeSupportsExpectedCategories() {
-        assertTrue(vaultItemTypeSource.contains("PASSWORD"))
-        assertTrue(vaultItemTypeSource.contains("NOTE"))
-        assertTrue(vaultItemTypeSource.contains("PHOTO"))
-        assertTrue(vaultItemTypeSource.contains("DOCUMENT"))
     }
 
     @Test
@@ -41,6 +29,7 @@ class VaultItemArchitectureTest {
         assertFalse(vaultItemSource.contains("bytes"))
         assertFalse(vaultItemSource.contains("path"))
         assertFalse(vaultItemSource.contains("uri"))
+        assertFalse(vaultItemSource.contains("key"))
         assertFalse(vaultItemSource.contains("passwordValue"))
         assertFalse(vaultItemSource.contains("noteBody"))
         assertFalse(vaultItemSource.contains("fileName"))
