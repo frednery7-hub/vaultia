@@ -3,74 +3,88 @@ package com.vaultia.app.feature.bootstrap.ui
 import android.content.Context
 import android.graphics.Typeface
 import android.view.Gravity
-import android.view.View
+import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
+import com.vaultia.app.core.model.vault.VaultSessionState
+import com.vaultia.app.core.session.InMemorySessionManager
 
-/**
- * Non-sensitive bootstrap UI for Vaultia.
- *
- * This screen is intentionally simple and must not collect,
- * store, process, or display vault content.
- */
-internal object BootstrapScreen {
-
-    fun create(context: Context): View {
-        return LinearLayout(context).apply {
+object BootstrapScreen {
+    fun create(
+        context: Context,
+        sessionManager: InMemorySessionManager,
+    ): LinearLayout {
+        val root = LinearLayout(context).apply {
             orientation = LinearLayout.VERTICAL
             gravity = Gravity.CENTER
             setPadding(48, 48, 48, 48)
-
-            addView(
-                title(context),
-                LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT,
-                ),
-            )
-
-            addView(
-                subtitle(context),
-                LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT,
-                ),
-            )
-
-            addView(
-                warning(context),
-                LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT,
-                ),
-            )
         }
-    }
 
-    private fun title(context: Context): TextView {
-        return TextView(context).apply {
-            text = "Vaultia"
-            gravity = Gravity.CENTER
-            textSize = 32f
-            typeface = Typeface.DEFAULT_BOLD
-        }
-    }
+        fun render() {
+            root.removeAllViews()
 
-    private fun subtitle(context: Context): TextView {
-        return TextView(context).apply {
-            text = "Cofre local para dados sensíveis"
-            gravity = Gravity.CENTER
-            textSize = 18f
-            setPadding(0, 24, 0, 0)
-        }
-    }
+            val currentState = sessionManager.state()
+            val isUnlocked = currentState == VaultSessionState.UNLOCKED
 
-    private fun warning(context: Context): TextView {
-        return TextView(context).apply {
-            text = "Este app é local-first. Sem nuvem, sem conta e sem recuperação remota."
-            gravity = Gravity.CENTER
-            textSize = 14f
-            setPadding(0, 32, 0, 0)
+            val title = TextView(context).apply {
+                text = "Vaultia"
+                textSize = 32f
+                typeface = Typeface.DEFAULT_BOLD
+                gravity = Gravity.CENTER
+            }
+
+            val subtitle = TextView(context).apply {
+                text = "Cofre local para dados sensíveis"
+                textSize = 18f
+                gravity = Gravity.CENTER
+            }
+
+            val description = TextView(context).apply {
+                text = "Este app é local-first. Sem nuvem, sem conta e sem recuperação remota."
+                textSize = 14f
+                gravity = Gravity.CENTER
+                setPadding(0, 24, 0, 24)
+            }
+
+            val stateLabel = TextView(context).apply {
+                text = if (isUnlocked) {
+                    "Estado: cofre desbloqueado"
+                } else {
+                    "Estado: cofre bloqueado"
+                }
+                textSize = 16f
+                gravity = Gravity.CENTER
+                typeface = Typeface.DEFAULT_BOLD
+                setPadding(0, 12, 0, 12)
+            }
+
+            val actionButton = Button(context).apply {
+                text = if (isUnlocked) {
+                    "Bloquear"
+                } else {
+                    "Desbloquear simulado"
+                }
+
+                setOnClickListener {
+                    if (sessionManager.state() == VaultSessionState.UNLOCKED) {
+                        sessionManager.lock()
+                    } else {
+                        sessionManager.unlockForCurrentProcessOnly()
+                    }
+
+                    render()
+                }
+            }
+
+            root.addView(title)
+            root.addView(subtitle)
+            root.addView(description)
+            root.addView(stateLabel)
+            root.addView(actionButton)
         }
+
+        render()
+
+        return root
     }
 }
