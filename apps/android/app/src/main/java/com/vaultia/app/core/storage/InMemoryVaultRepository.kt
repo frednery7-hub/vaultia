@@ -15,6 +15,10 @@ class InMemoryVaultRepository {
         items.add(item)
     }
 
+    fun addAllMetadataForCurrentProcessOnly(metadataItems: List<VaultItem>) {
+        metadataItems.forEach { item -> addMetadataForCurrentProcessOnly(item) }
+    }
+
     fun clearForCurrentProcessOnly() {
         items.clear()
     }

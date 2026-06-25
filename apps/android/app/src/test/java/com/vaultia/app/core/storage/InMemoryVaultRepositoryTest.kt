@@ -24,6 +24,17 @@ class InMemoryVaultRepositoryTest {
         assertEquals(listOf(item), repository.listMetadata())
     }
 
+    @Test
+    fun addsAllMetadataForCurrentProcessOnly() {
+        val repository = InMemoryVaultRepository()
+        val firstItem = vaultItem(id = "item-1", type = VaultItemType.NOTE)
+        val secondItem = vaultItem(id = "item-2", type = VaultItemType.DOCUMENT)
+
+        repository.addAllMetadataForCurrentProcessOnly(listOf(firstItem, secondItem))
+
+        assertEquals(listOf(firstItem, secondItem), repository.listMetadata())
+    }
+
     @Test(expected = IllegalArgumentException::class)
     fun rejectsDuplicateIds() {
         val repository = InMemoryVaultRepository()
@@ -32,6 +43,15 @@ class InMemoryVaultRepositoryTest {
 
         repository.addMetadataForCurrentProcessOnly(firstItem)
         repository.addMetadataForCurrentProcessOnly(secondItem)
+    }
+
+    @Test(expected = IllegalArgumentException::class)
+    fun rejectsDuplicateIdsWhenAddingAll() {
+        val repository = InMemoryVaultRepository()
+        val firstItem = vaultItem(id = "item-1", type = VaultItemType.NOTE)
+        val secondItem = vaultItem(id = "item-1", type = VaultItemType.DOCUMENT)
+
+        repository.addAllMetadataForCurrentProcessOnly(listOf(firstItem, secondItem))
     }
 
     @Test

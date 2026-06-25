@@ -15,6 +15,7 @@ class InMemoryVaultRepositoryArchitectureTest {
         assertTrue(repositorySource.contains("mutableListOf"))
         assertTrue(repositorySource.contains("listMetadata"))
         assertTrue(repositorySource.contains("addMetadataForCurrentProcessOnly"))
+        assertTrue(repositorySource.contains("addAllMetadataForCurrentProcessOnly"))
         assertTrue(repositorySource.contains("clearForCurrentProcessOnly"))
     }
 
