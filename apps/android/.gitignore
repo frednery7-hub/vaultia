@@ -1,0 +1,47 @@
+# ============================================================
+# Vaultia Android - .gitignore
+# ============================================================
+
+# Gradle
+.gradle/
+build/
+**/build/
+
+# Local SDK path
+local.properties
+
+# Android Studio / IntelliJ
+.idea/
+*.iml
+
+# Native / generated
+.externalNativeBuild/
+.cxx/
+
+# Build artifacts
+*.apk
+*.aab
+*.apks
+*.idsig
+
+# Logs
+*.log
+
+# macOS
+.DS_Store
+
+# Signing / secrets
+*.jks
+*.keystore
+*.p12
+*.pem
+*.key
+*.crt
+*.cer
+
+# Sensitive local test artifacts
+*.vaultia
+*.vaultia-backup
+*.vaultia-backup.*
+*.enc
+*.encrypted

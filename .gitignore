@@ -1,0 +1,70 @@
+# ============================================================
+# Vaultia - Root .gitignore
+# ============================================================
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Editor / IDE
+.vscode/
+.idea/
+*.iml
+
+# Logs
+*.log
+logs/
+
+# Environment / local machine files
+.env
+.env.*
+!.env.example
+local.properties
+
+# Secrets / credentials / signing
+*.jks
+*.keystore
+*.p12
+*.pem
+*.key
+*.crt
+*.cer
+*.mobileprovision
+*.provisionprofile
+
+# Android / Gradle generated
+.gradle/
+build/
+**/build/
+captures/
+.externalNativeBuild/
+.cxx/
+
+# Android artifacts
+*.apk
+*.aab
+*.apks
+*.idsig
+
+# Kotlin / Java generated
+*.class
+out/
+
+# Backup / temporary
+*.tmp
+*.temp
+*.bak
+*.swp
+*.swo
+
+# Vaultia sensitive test artifacts
+*.vaultia
+*.vaultia-backup
+*.vaultia-backup.*
+*.enc
+*.encrypted
+
+# Do not commit local evidence with private data
+evidence/private/
+screenshots/private/
