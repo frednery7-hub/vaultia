@@ -26,6 +26,12 @@ class BootstrapSessionUiArchitectureTest {
     }
 
     @Test
+    fun bootstrapScreenUsesVaultRepositoryMetadataOnly() {
+        assertTrue(bootstrapScreenSource.contains("InMemoryVaultRepository"))
+        assertTrue(bootstrapScreenSource.contains("vaultRepository.listMetadata()"))
+    }
+
+    @Test
     fun sessionManagerDoesNotUsePersistenceApis() {
         assertFalse(sessionManagerSource.contains("SharedPreferences"))
         assertFalse(sessionManagerSource.contains("DataStore"))

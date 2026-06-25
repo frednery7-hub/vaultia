@@ -15,13 +15,19 @@ class VaultHomeShellArchitectureTest {
     ).toFile().readText()
 
     @Test
-    fun vaultHomeShellShowsOnlyEmptyCategories() {
+    fun vaultHomeShellShowsCategories() {
         assertTrue(vaultHomeShellSource.contains("Senhas"))
         assertTrue(vaultHomeShellSource.contains("Notas"))
         assertTrue(vaultHomeShellSource.contains("Fotos"))
         assertTrue(vaultHomeShellSource.contains("Documentos"))
-        assertTrue(vaultHomeShellSource.contains("0 itens"))
         assertTrue(vaultHomeShellSource.contains("Nenhum item salvo nesta fase."))
+    }
+
+    @Test
+    fun vaultHomeShellUsesMetadataOnlyInput() {
+        assertTrue(vaultHomeShellSource.contains("items: List<VaultItem>"))
+        assertTrue(vaultHomeShellSource.contains("VaultItemType"))
+        assertTrue(vaultHomeShellSource.contains("countItems"))
     }
 
     @Test
@@ -47,7 +53,7 @@ class VaultHomeShellArchitectureTest {
 
     @Test
     fun bootstrapScreenMountsVaultHomeShellOnlyWhenUnlocked() {
-        assertTrue(bootstrapScreenSource.contains("VaultHomeShell.create(context)"))
+        assertTrue(bootstrapScreenSource.contains("VaultHomeShell.create(context, vaultRepository.listMetadata())"))
         assertTrue(bootstrapScreenSource.contains("if (isUnlocked)"))
     }
 }

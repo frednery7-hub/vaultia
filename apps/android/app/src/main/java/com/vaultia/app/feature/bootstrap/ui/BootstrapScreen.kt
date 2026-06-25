@@ -8,12 +8,14 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import com.vaultia.app.core.model.vault.VaultSessionState
 import com.vaultia.app.core.session.InMemorySessionManager
+import com.vaultia.app.core.storage.InMemoryVaultRepository
 import com.vaultia.app.feature.vault.ui.VaultHomeShell
 
 object BootstrapScreen {
     fun create(
         context: Context,
         sessionManager: InMemorySessionManager,
+        vaultRepository: InMemoryVaultRepository,
     ): LinearLayout {
         val root = LinearLayout(context).apply {
             orientation = LinearLayout.VERTICAL
@@ -84,7 +86,7 @@ object BootstrapScreen {
             root.addView(actionButton)
 
             if (isUnlocked) {
-                root.addView(VaultHomeShell.create(context))
+                root.addView(VaultHomeShell.create(context, vaultRepository.listMetadata()))
             }
         }
 

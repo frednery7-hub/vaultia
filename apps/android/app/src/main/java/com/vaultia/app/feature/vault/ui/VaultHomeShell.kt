@@ -5,9 +5,14 @@ import android.graphics.Typeface
 import android.view.Gravity
 import android.widget.LinearLayout
 import android.widget.TextView
+import com.vaultia.app.core.model.vault.VaultItem
+import com.vaultia.app.core.model.vault.VaultItemType
 
 object VaultHomeShell {
-    fun create(context: Context): LinearLayout {
+    fun create(
+        context: Context,
+        items: List<VaultItem>,
+    ): LinearLayout {
         val root = LinearLayout(context).apply {
             orientation = LinearLayout.VERTICAL
             gravity = Gravity.CENTER
@@ -23,7 +28,11 @@ object VaultHomeShell {
         }
 
         val description = TextView(context).apply {
-            text = "Nenhum item salvo nesta fase."
+            text = if (items.isEmpty()) {
+                "Nenhum item salvo nesta fase."
+            } else {
+                "Exibindo somente metadados temporários."
+            }
             textSize = 14f
             gravity = Gravity.CENTER
             setPadding(0, 0, 0, 16)
@@ -32,21 +41,28 @@ object VaultHomeShell {
         root.addView(title)
         root.addView(description)
 
-        root.addView(categoryCard(context, "Senhas", "0 itens"))
-        root.addView(categoryCard(context, "Notas", "0 itens"))
-        root.addView(categoryCard(context, "Fotos", "0 itens"))
-        root.addView(categoryCard(context, "Documentos", "0 itens"))
+        root.addView(categoryCard(context, "Senhas", countItems(items, VaultItemType.PASSWORD)))
+        root.addView(categoryCard(context, "Notas", countItems(items, VaultItemType.NOTE)))
+        root.addView(categoryCard(context, "Fotos", countItems(items, VaultItemType.PHOTO)))
+        root.addView(categoryCard(context, "Documentos", countItems(items, VaultItemType.DOCUMENT)))
 
         return root
+    }
+
+    private fun countItems(
+        items: List<VaultItem>,
+        type: VaultItemType,
+    ): Int {
+        return items.count { item -> item.type == type }
     }
 
     private fun categoryCard(
         context: Context,
         title: String,
-        count: String,
+        count: Int,
     ): TextView {
         return TextView(context).apply {
-            text = "$title — $count"
+            text = "$title — $count itens"
             textSize = 16f
             gravity = Gravity.CENTER
             setPadding(24, 14, 24, 14)
