@@ -10,6 +10,10 @@ class DemoVaultMetadataSeedArchitectureTest {
         "src/main/java/com/vaultia/app/feature/vault/demo/DemoVaultMetadataSeed.kt",
     ).toFile().readText()
 
+    private val appContainerSource = Paths.get(
+        "src/main/java/com/vaultia/app/core/app/VaultiaAppContainer.kt",
+    ).toFile().readText()
+
     private val mainActivitySource = Paths.get(
         "src/main/java/com/vaultia/app/MainActivity.kt",
     ).toFile().readText()
@@ -53,8 +57,17 @@ class DemoVaultMetadataSeedArchitectureTest {
     }
 
     @Test
-    fun mainActivityLoadsDemoSeedIntoInMemoryRepositoryOnly() {
-        assertTrue(mainActivitySource.contains("DemoVaultMetadataSeed.metadataOnlyItems()"))
-        assertTrue(mainActivitySource.contains("addAllMetadataForCurrentProcessOnly"))
+    fun appContainerLoadsDemoSeedIntoInMemoryRepositoryOnly() {
+        assertTrue(appContainerSource.contains("DemoVaultMetadataSeed.metadataOnlyItems()"))
+        assertTrue(appContainerSource.contains("addAllMetadataForCurrentProcessOnly"))
+        assertTrue(appContainerSource.contains("InMemoryVaultRepository"))
+    }
+
+    @Test
+    fun mainActivityDoesNotLoadDemoSeedDirectly() {
+        assertTrue(mainActivitySource.contains("VaultiaAppContainer"))
+        assertFalse(mainActivitySource.contains("DemoVaultMetadataSeed"))
+        assertFalse(mainActivitySource.contains("metadataOnlyItems"))
+        assertFalse(mainActivitySource.contains("addAllMetadataForCurrentProcessOnly"))
     }
 }

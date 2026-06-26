@@ -2,22 +2,21 @@ package com.vaultia.app
 
 import android.app.Activity
 import android.os.Bundle
-import com.vaultia.app.core.session.InMemorySessionManager
-import com.vaultia.app.core.storage.InMemoryVaultRepository
+import com.vaultia.app.core.app.VaultiaAppContainer
 import com.vaultia.app.feature.bootstrap.ui.BootstrapScreen
-import com.vaultia.app.feature.vault.demo.DemoVaultMetadataSeed
 
 class MainActivity : Activity() {
-    private val sessionManager = InMemorySessionManager()
-    private val vaultRepository = InMemoryVaultRepository()
+    private val appContainer = VaultiaAppContainer()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        vaultRepository.addAllMetadataForCurrentProcessOnly(
-            DemoVaultMetadataSeed.metadataOnlyItems(),
+        setContentView(
+            BootstrapScreen.create(
+                context = this,
+                sessionManager = appContainer.sessionManager,
+                vaultRepository = appContainer.vaultRepository,
+            ),
         )
-
-        setContentView(BootstrapScreen.create(this, sessionManager, vaultRepository))
     }
 }
