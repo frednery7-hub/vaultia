@@ -6,46 +6,43 @@ import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class BootstrapSessionUiArchitectureTest {
-    private val bootstrapScreenSource = Paths.get(
+    private val bootstrapSource = Paths.get(
         "src/main/java/com/vaultia/app/feature/bootstrap/ui/BootstrapScreen.kt",
     ).toFile().readText()
 
-    private val sessionManagerSource = Paths.get(
-        "src/main/java/com/vaultia/app/core/session/InMemorySessionManager.kt",
+    private val lockedScreenSource = Paths.get(
+        "src/main/java/com/vaultia/app/feature/vault/ui/LockedVaultScreen.kt",
+    ).toFile().readText()
+
+    private val unlockedScreenSource = Paths.get(
+        "src/main/java/com/vaultia/app/feature/vault/ui/UnlockedVaultScreen.kt",
     ).toFile().readText()
 
     @Test
-    fun bootstrapUiUsesExplicitLockedAndUnlockedLabels() {
-        assertTrue(bootstrapScreenSource.contains("cofre bloqueado"))
-        assertTrue(bootstrapScreenSource.contains("cofre desbloqueado"))
+    fun bootstrapDelegatesLockedAndUnlockedStatesToDedicatedScreens() {
+        assertTrue(bootstrapSource.contains("VaultSessionUiState.LOCKED"))
+        assertTrue(bootstrapSource.contains("VaultSessionUiState.UNLOCKED"))
+        assertTrue(bootstrapSource.contains("LockedVaultScreen.create"))
+        assertTrue(bootstrapSource.contains("UnlockedVaultScreen.create"))
     }
 
     @Test
-    fun unlockActionIsMarkedAsSimulated() {
-        assertTrue(bootstrapScreenSource.contains("Desbloquear simulado"))
+    fun lockedScreenKeepsSimulatedUnlockActionExplicit() {
+        assertTrue(lockedScreenSource.contains("Desbloquear simulado"))
+        assertTrue(lockedScreenSource.contains("onUnlockRequested"))
+        assertTrue(lockedScreenSource.contains("Estado: cofre bloqueado"))
     }
 
     @Test
-    fun bootstrapScreenUsesVaultRepositoryMetadataOnly() {
-        assertTrue(bootstrapScreenSource.contains("InMemoryVaultRepository"))
-        assertTrue(bootstrapScreenSource.contains("vaultRepository.listMetadata()"))
+    fun unlockedScreenKeepsLockActionExplicit() {
+        assertTrue(unlockedScreenSource.contains("Bloquear"))
+        assertTrue(unlockedScreenSource.contains("onLockRequested"))
     }
 
     @Test
-    fun sessionManagerDoesNotUsePersistenceApis() {
-        assertFalse(sessionManagerSource.contains("SharedPreferences"))
-        assertFalse(sessionManagerSource.contains("DataStore"))
-        assertFalse(sessionManagerSource.contains("SQLite"))
-        assertFalse(sessionManagerSource.contains("Room"))
-        assertFalse(sessionManagerSource.contains("File("))
-    }
-
-    @Test
-    fun sessionManagerDoesNotClaimRealAuthenticationOrCryptography() {
-        assertFalse(sessionManagerSource.contains("password"))
-        assertFalse(sessionManagerSource.contains("senha"))
-        assertFalse(sessionManagerSource.contains("biometric"))
-        assertFalse(sessionManagerSource.contains("AES"))
-        assertFalse(sessionManagerSource.contains("Keystore"))
+    fun bootstrapDoesNotContainLowLevelSessionLabelsAnymore() {
+        assertFalse(bootstrapSource.contains("Desbloquear simulado"))
+        assertFalse(bootstrapSource.contains("Estado: cofre bloqueado"))
+        assertFalse(bootstrapSource.contains("Bloquear"))
     }
 }

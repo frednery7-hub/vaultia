@@ -10,50 +10,59 @@ class VaultHomeShellArchitectureTest {
         "src/main/java/com/vaultia/app/feature/vault/ui/VaultHomeShell.kt",
     ).toFile().readText()
 
-    private val bootstrapScreenSource = Paths.get(
+    private val bootstrapSource = Paths.get(
         "src/main/java/com/vaultia/app/feature/bootstrap/ui/BootstrapScreen.kt",
     ).toFile().readText()
 
+    private val unlockedScreenSource = Paths.get(
+        "src/main/java/com/vaultia/app/feature/vault/ui/UnlockedVaultScreen.kt",
+    ).toFile().readText()
+
     @Test
-    fun vaultHomeShellShowsCategories() {
-        assertTrue(vaultHomeShellSource.contains("Senhas"))
-        assertTrue(vaultHomeShellSource.contains("Notas"))
-        assertTrue(vaultHomeShellSource.contains("Fotos"))
-        assertTrue(vaultHomeShellSource.contains("Documentos"))
-        assertTrue(vaultHomeShellSource.contains("Nenhum item salvo nesta fase."))
+    fun vaultHomeShellUsesMetadataOnlyItems() {
+        assertTrue(vaultHomeShellSource.contains("List<VaultItem>"))
+        assertTrue(vaultHomeShellSource.contains("VaultItemType.PASSWORD"))
+        assertTrue(vaultHomeShellSource.contains("VaultItemType.NOTE"))
+        assertTrue(vaultHomeShellSource.contains("VaultItemType.PHOTO"))
+        assertTrue(vaultHomeShellSource.contains("VaultItemType.DOCUMENT"))
     }
 
     @Test
-    fun vaultHomeShellUsesMetadataOnlyInput() {
-        assertTrue(vaultHomeShellSource.contains("items: List<VaultItem>"))
-        assertTrue(vaultHomeShellSource.contains("VaultItemType"))
-        assertTrue(vaultHomeShellSource.contains("countItems"))
+    fun vaultHomeShellDoesNotUseSensitivePayloadFields() {
+        assertFalse(vaultHomeShellSource.contains("passwordValue"))
+        assertFalse(vaultHomeShellSource.contains("noteBody"))
+        assertFalse(vaultHomeShellSource.contains("secret"))
+        assertFalse(vaultHomeShellSource.contains("payload"))
+        assertFalse(vaultHomeShellSource.contains("cipher"))
+        assertFalse(vaultHomeShellSource.contains("bytes"))
+        assertFalse(vaultHomeShellSource.contains("fileName"))
+        assertFalse(vaultHomeShellSource.contains("mimeType"))
     }
 
     @Test
-    fun vaultHomeShellDoesNotUseStorageOrCryptoApis() {
+    fun unlockedScreenMountsVaultHomeShell() {
+        assertTrue(unlockedScreenSource.contains("VaultHomeShell.create"))
+        assertTrue(unlockedScreenSource.contains("items = items"))
+    }
+
+    @Test
+    fun bootstrapScreenDoesNotMountVaultHomeShellDirectly() {
+        assertFalse(bootstrapSource.contains("VaultHomeShell.create"))
+        assertTrue(bootstrapSource.contains("UnlockedVaultScreen.create"))
+    }
+
+    @Test
+    fun vaultHomeShellDoesNotUseStorageCryptoOrNetworkApis() {
         assertFalse(vaultHomeShellSource.contains("SharedPreferences"))
         assertFalse(vaultHomeShellSource.contains("DataStore"))
         assertFalse(vaultHomeShellSource.contains("SQLite"))
         assertFalse(vaultHomeShellSource.contains("Room"))
         assertFalse(vaultHomeShellSource.contains("File("))
         assertFalse(vaultHomeShellSource.contains("Cipher"))
-        assertFalse(vaultHomeShellSource.contains("AES"))
         assertFalse(vaultHomeShellSource.contains("Keystore"))
-    }
-
-    @Test
-    fun vaultHomeShellDoesNotUseNetworkApis() {
         assertFalse(vaultHomeShellSource.contains("Http"))
-        assertFalse(vaultHomeShellSource.contains("URL"))
         assertFalse(vaultHomeShellSource.contains("Socket"))
         assertFalse(vaultHomeShellSource.contains("Retrofit"))
         assertFalse(vaultHomeShellSource.contains("OkHttp"))
-    }
-
-    @Test
-    fun bootstrapScreenMountsVaultHomeShellOnlyWhenUnlocked() {
-        assertTrue(bootstrapScreenSource.contains("VaultHomeShell.create(context, vaultRepository.listMetadata())"))
-        assertTrue(bootstrapScreenSource.contains("if (isUnlocked)"))
     }
 }

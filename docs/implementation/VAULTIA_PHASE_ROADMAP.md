@@ -8,7 +8,7 @@ Cada fase concluída representa 2.5% do progresso total.
 
 ## Progresso atual
 
-Após a Phase 16:
+Após a Phase 17:
 
 ```text
-16 / 40 = 40%
+17 / 40 = 42.5%

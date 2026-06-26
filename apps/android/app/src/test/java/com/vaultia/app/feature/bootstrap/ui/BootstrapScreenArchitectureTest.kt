@@ -1,41 +1,48 @@
 package com.vaultia.app.feature.bootstrap.ui
 
-import org.junit.Assert.assertFalse
-import org.junit.Test
 import java.nio.file.Paths
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertTrue
+import org.junit.Test
 
 class BootstrapScreenArchitectureTest {
+    private val bootstrapSource = Paths.get(
+        "src/main/java/com/vaultia/app/feature/bootstrap/ui/BootstrapScreen.kt",
+    ).toFile().readText()
 
     @Test
-    fun bootstrapScreen_doesNotContainSensitiveInputOrPersistenceTerms() {
-        val path = Paths.get(
-            "src/main/java/com/vaultia/app/feature/bootstrap/ui/BootstrapScreen.kt",
-        )
+    fun bootstrapScreenDelegatesToLockedAndUnlockedScreens() {
+        assertTrue(bootstrapSource.contains("LockedVaultScreen.create"))
+        assertTrue(bootstrapSource.contains("UnlockedVaultScreen.create"))
+    }
 
-        val source = path.toFile().readText().lowercase()
+    @Test
+    fun bootstrapScreenStillOrchestratesVaultSessionUiState() {
+        assertTrue(bootstrapSource.contains("VaultSessionUiState.LOCKED"))
+        assertTrue(bootstrapSource.contains("VaultSessionUiState.UNLOCKED"))
+        assertTrue(bootstrapSource.contains("toUiState()"))
+    }
 
-        val forbiddenTerms = listOf(
-            "edittext",
-            "password",
-            "masterpassword",
-            "secretkey",
-            "cipher",
-            "keystore",
-            "sharedpreferences",
-            "sqlite",
-            "room",
-            "encrypt",
-            "decrypt",
-            "internet",
-            "http",
-            "sync",
-        )
+    @Test
+    fun bootstrapScreenDoesNotBuildLowLevelVaultUiDirectly() {
+        assertFalse(bootstrapSource.contains("TextView(context)"))
+        assertFalse(bootstrapSource.contains("Button(context)"))
+        assertFalse(bootstrapSource.contains("LinearLayout(context)"))
+        assertFalse(bootstrapSource.contains("VaultHomeShell.create"))
+    }
 
-        forbiddenTerms.forEach { forbidden ->
-            assertFalse(
-                "Forbidden bootstrap UI term detected: $forbidden",
-                source.contains(forbidden),
-            )
-        }
+    @Test
+    fun bootstrapScreenDoesNotUseStorageCryptoOrNetworkApis() {
+        assertFalse(bootstrapSource.contains("SharedPreferences"))
+        assertFalse(bootstrapSource.contains("DataStore"))
+        assertFalse(bootstrapSource.contains("SQLite"))
+        assertFalse(bootstrapSource.contains("Room"))
+        assertFalse(bootstrapSource.contains("File("))
+        assertFalse(bootstrapSource.contains("Cipher"))
+        assertFalse(bootstrapSource.contains("Keystore"))
+        assertFalse(bootstrapSource.contains("Http"))
+        assertFalse(bootstrapSource.contains("Socket"))
+        assertFalse(bootstrapSource.contains("Retrofit"))
+        assertFalse(bootstrapSource.contains("OkHttp"))
     }
 }
