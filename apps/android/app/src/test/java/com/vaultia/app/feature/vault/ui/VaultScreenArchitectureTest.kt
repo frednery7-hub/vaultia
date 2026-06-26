@@ -22,15 +22,28 @@ class VaultScreenArchitectureTest {
         assertFalse(lockedScreenSource.contains("VaultHomeShell"))
         assertFalse(lockedScreenSource.contains("InMemorySessionManager"))
         assertFalse(lockedScreenSource.contains("InMemoryVaultRepository"))
+        assertFalse(lockedScreenSource.contains("InMemoryVaultNavigator"))
     }
 
     @Test
-    fun unlockedScreenContainsOnlyUnlockedUiConcern() {
+    fun unlockedScreenContainsUnlockedUiAndLocalNavigationConcern() {
         assertTrue(unlockedScreenSource.contains("object UnlockedVaultScreen"))
         assertTrue(unlockedScreenSource.contains("VaultHomeShell.create"))
+        assertTrue(unlockedScreenSource.contains("currentDestination: VaultDestination"))
+        assertTrue(unlockedScreenSource.contains("onNavigateRequested"))
         assertTrue(unlockedScreenSource.contains("onLockRequested"))
         assertFalse(unlockedScreenSource.contains("InMemorySessionManager"))
         assertFalse(unlockedScreenSource.contains("InMemoryVaultRepository"))
+        assertFalse(unlockedScreenSource.contains("InMemoryVaultNavigator"))
+    }
+
+    @Test
+    fun unlockedScreenContainsExpectedVaultDestinations() {
+        assertTrue(unlockedScreenSource.contains("VaultDestination.HOME"))
+        assertTrue(unlockedScreenSource.contains("VaultDestination.PASSWORDS"))
+        assertTrue(unlockedScreenSource.contains("VaultDestination.NOTES"))
+        assertTrue(unlockedScreenSource.contains("VaultDestination.PHOTOS"))
+        assertTrue(unlockedScreenSource.contains("VaultDestination.DOCUMENTS"))
     }
 
     @Test

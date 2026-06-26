@@ -2,6 +2,7 @@ package com.vaultia.app.feature.bootstrap.ui
 
 import android.content.Context
 import android.widget.FrameLayout
+import com.vaultia.app.core.navigation.InMemoryVaultNavigator
 import com.vaultia.app.core.session.InMemorySessionManager
 import com.vaultia.app.core.session.VaultSessionUiState
 import com.vaultia.app.core.session.toUiState
@@ -14,6 +15,7 @@ object BootstrapScreen {
         context: Context,
         sessionManager: InMemorySessionManager,
         vaultRepository: InMemoryVaultRepository,
+        vaultNavigator: InMemoryVaultNavigator,
     ): FrameLayout {
         val root = FrameLayout(context)
 
@@ -25,6 +27,7 @@ object BootstrapScreen {
                     context = context,
                     onUnlockRequested = {
                         sessionManager.unlockForCurrentProcessOnly()
+                        vaultNavigator.resetToHome()
                         render()
                     },
                 )
@@ -32,8 +35,14 @@ object BootstrapScreen {
                 VaultSessionUiState.UNLOCKED -> UnlockedVaultScreen.create(
                     context = context,
                     items = vaultRepository.listMetadata(),
+                    currentDestination = vaultNavigator.current(),
+                    onNavigateRequested = { destination ->
+                        vaultNavigator.navigateTo(destination)
+                        render()
+                    },
                     onLockRequested = {
                         sessionManager.lock()
+                        vaultNavigator.resetToHome()
                         render()
                     },
                 )

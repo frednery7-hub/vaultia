@@ -16,6 +16,7 @@ class MainActivity : Activity() {
                 context = this,
                 sessionManager = appContainer.sessionManager,
                 vaultRepository = appContainer.vaultRepository,
+                vaultNavigator = appContainer.vaultNavigator,
             ),
         )
     }

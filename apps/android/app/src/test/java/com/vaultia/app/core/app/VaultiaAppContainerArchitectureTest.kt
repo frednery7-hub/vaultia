@@ -14,6 +14,7 @@ class VaultiaAppContainerArchitectureTest {
     fun appContainerOwnsLocalDependencies() {
         assertTrue(appContainerSource.contains("InMemorySessionManager"))
         assertTrue(appContainerSource.contains("InMemoryVaultRepository"))
+        assertTrue(appContainerSource.contains("InMemoryVaultNavigator"))
         assertTrue(appContainerSource.contains("DemoVaultMetadataSeed"))
     }
 

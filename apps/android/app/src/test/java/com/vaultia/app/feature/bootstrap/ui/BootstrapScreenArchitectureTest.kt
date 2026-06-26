@@ -24,6 +24,14 @@ class BootstrapScreenArchitectureTest {
     }
 
     @Test
+    fun bootstrapScreenCoordinatesLocalNavigatorOnly() {
+        assertTrue(bootstrapSource.contains("InMemoryVaultNavigator"))
+        assertTrue(bootstrapSource.contains("vaultNavigator.current()"))
+        assertTrue(bootstrapSource.contains("vaultNavigator.navigateTo(destination)"))
+        assertTrue(bootstrapSource.contains("vaultNavigator.resetToHome()"))
+    }
+
+    @Test
     fun bootstrapScreenDoesNotBuildLowLevelVaultUiDirectly() {
         assertFalse(bootstrapSource.contains("TextView(context)"))
         assertFalse(bootstrapSource.contains("Button(context)"))
