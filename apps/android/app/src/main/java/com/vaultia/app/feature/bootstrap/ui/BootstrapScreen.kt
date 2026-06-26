@@ -6,8 +6,9 @@ import android.view.Gravity
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
-import com.vaultia.app.core.model.vault.VaultSessionState
 import com.vaultia.app.core.session.InMemorySessionManager
+import com.vaultia.app.core.session.VaultSessionUiState
+import com.vaultia.app.core.session.toUiState
 import com.vaultia.app.core.storage.InMemoryVaultRepository
 import com.vaultia.app.feature.vault.ui.VaultHomeShell
 
@@ -26,8 +27,8 @@ object BootstrapScreen {
         fun render() {
             root.removeAllViews()
 
-            val currentState = sessionManager.state()
-            val isUnlocked = currentState == VaultSessionState.UNLOCKED
+            val uiState = sessionManager.state().toUiState()
+            val isUnlocked = uiState == VaultSessionUiState.UNLOCKED
 
             val title = TextView(context).apply {
                 text = "Vaultia"
@@ -69,7 +70,7 @@ object BootstrapScreen {
                 }
 
                 setOnClickListener {
-                    if (sessionManager.state() == VaultSessionState.UNLOCKED) {
+                    if (sessionManager.state().toUiState() == VaultSessionUiState.UNLOCKED) {
                         sessionManager.lock()
                     } else {
                         sessionManager.unlockForCurrentProcessOnly()
