@@ -8,6 +8,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import com.vaultia.app.core.model.vault.VaultItem
 import com.vaultia.app.core.navigation.VaultDestination
+import com.vaultia.app.feature.auth.ui.AuthBoundaryNoticeView
 
 object UnlockedVaultScreen {
     fun create(
@@ -30,6 +31,8 @@ object UnlockedVaultScreen {
             gravity = Gravity.CENTER
             setPadding(0, 0, 0, 24)
         }
+
+        val authBoundaryNotice = AuthBoundaryNoticeView.create(context)
 
         val navigationBar = createNavigationBar(
             context = context,
@@ -80,6 +83,7 @@ object UnlockedVaultScreen {
         }
 
         root.addView(navigationTitle)
+        root.addView(authBoundaryNotice)
         root.addView(navigationBar)
         root.addView(content)
         root.addView(lockButton)

@@ -6,6 +6,7 @@ import android.view.Gravity
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
+import com.vaultia.app.feature.auth.ui.AuthBoundaryNoticeView
 
 object LockedVaultScreen {
     fun create(
@@ -45,6 +46,8 @@ object LockedVaultScreen {
             setPadding(0, 12, 0, 12)
         }
 
+        val authBoundaryNotice = AuthBoundaryNoticeView.create(context)
+
         val unlockButton = Button(context).apply {
             text = "Desbloquear simulado"
             setOnClickListener {
@@ -56,6 +59,7 @@ object LockedVaultScreen {
         root.addView(subtitle)
         root.addView(description)
         root.addView(stateLabel)
+        root.addView(authBoundaryNotice)
         root.addView(unlockButton)
 
         return root
