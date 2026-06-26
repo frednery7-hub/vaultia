@@ -43,28 +43,32 @@ object UnlockedVaultScreen {
                 items = items,
             )
 
-            VaultDestination.PASSWORDS -> createSectionPlaceholder(
+            VaultDestination.PASSWORDS -> VaultEmptyStateView.create(
                 context = context,
                 title = "Senhas",
-                description = "Área reservada para metadados de senhas. CRUD real ainda não implementado.",
+                description = "Nenhuma senha real será criada nesta fase. Esta seção prepara apenas a navegação local.",
+                securityNote = "Próximo passo futuro: autenticação local, KDF e criptografia antes de qualquer segredo real.",
             )
 
-            VaultDestination.NOTES -> createSectionPlaceholder(
+            VaultDestination.NOTES -> VaultEmptyStateView.create(
                 context = context,
                 title = "Notas",
-                description = "Área reservada para metadados de notas. Conteúdo sensível ainda não implementado.",
+                description = "Nenhuma nota sensível será armazenada nesta fase. O conteúdo real ainda está bloqueado por arquitetura.",
+                securityNote = "Notas reais só entram depois de storage criptografado e política de desbloqueio.",
             )
 
-            VaultDestination.PHOTOS -> createSectionPlaceholder(
+            VaultDestination.PHOTOS -> VaultEmptyStateView.create(
                 context = context,
                 title = "Fotos",
-                description = "Área reservada para metadados de fotos privadas. Arquivos reais ainda não implementados.",
+                description = "Nenhuma foto privada será importada nesta fase. Arquivos reais continuam fora do escopo.",
+                securityNote = "Fotos exigem armazenamento privado, nomes opacos e criptografia antes do uso real.",
             )
 
-            VaultDestination.DOCUMENTS -> createSectionPlaceholder(
+            VaultDestination.DOCUMENTS -> VaultEmptyStateView.create(
                 context = context,
                 title = "Documentos",
-                description = "Área reservada para metadados de documentos. Storage real ainda não implementado.",
+                description = "Nenhum documento real será salvo nesta fase. Esta tela é apenas preparação de UX.",
+                securityNote = "Documentos reais só entram após envelope encryption e fluxo de importação seguro.",
             )
         }
 
@@ -111,37 +115,6 @@ object UnlockedVaultScreen {
         }
 
         return navigationBar
-    }
-
-    private fun createSectionPlaceholder(
-        context: Context,
-        title: String,
-        description: String,
-    ): LinearLayout {
-        val section = LinearLayout(context).apply {
-            orientation = LinearLayout.VERTICAL
-            gravity = Gravity.CENTER_HORIZONTAL
-            setPadding(0, 24, 0, 24)
-        }
-
-        val sectionTitle = TextView(context).apply {
-            text = title
-            textSize = 22f
-            typeface = Typeface.DEFAULT_BOLD
-            gravity = Gravity.CENTER
-        }
-
-        val sectionDescription = TextView(context).apply {
-            text = description
-            textSize = 14f
-            gravity = Gravity.CENTER
-            setPadding(0, 12, 0, 12)
-        }
-
-        section.addView(sectionTitle)
-        section.addView(sectionDescription)
-
-        return section
     }
 
     private fun VaultDestination.label(): String {

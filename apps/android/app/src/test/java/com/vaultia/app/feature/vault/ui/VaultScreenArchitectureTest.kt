@@ -29,6 +29,7 @@ class VaultScreenArchitectureTest {
     fun unlockedScreenContainsUnlockedUiAndLocalNavigationConcern() {
         assertTrue(unlockedScreenSource.contains("object UnlockedVaultScreen"))
         assertTrue(unlockedScreenSource.contains("VaultHomeShell.create"))
+        assertTrue(unlockedScreenSource.contains("VaultEmptyStateView.create"))
         assertTrue(unlockedScreenSource.contains("currentDestination: VaultDestination"))
         assertTrue(unlockedScreenSource.contains("onNavigateRequested"))
         assertTrue(unlockedScreenSource.contains("onLockRequested"))
@@ -44,6 +45,16 @@ class VaultScreenArchitectureTest {
         assertTrue(unlockedScreenSource.contains("VaultDestination.NOTES"))
         assertTrue(unlockedScreenSource.contains("VaultDestination.PHOTOS"))
         assertTrue(unlockedScreenSource.contains("VaultDestination.DOCUMENTS"))
+    }
+
+    @Test
+    fun unlockedScreenDocumentsSecurityBoundariesInEmptyStates() {
+        assertTrue(unlockedScreenSource.contains("Nenhuma senha real"))
+        assertTrue(unlockedScreenSource.contains("Nenhuma nota sensível"))
+        assertTrue(unlockedScreenSource.contains("Nenhuma foto privada"))
+        assertTrue(unlockedScreenSource.contains("Nenhum documento real"))
+        assertTrue(unlockedScreenSource.contains("criptografia"))
+        assertTrue(unlockedScreenSource.contains("storage criptografado"))
     }
 
     @Test
