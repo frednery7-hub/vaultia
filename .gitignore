@@ -80,3 +80,5 @@ docs/evidence/**/*.png
 docs/evidence/**/*.jpg
 docs/evidence/**/*.jpeg
 docs/evidence/**/*.webp
+context-output.txt
+audit-50-output.txt
