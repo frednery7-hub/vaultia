@@ -91,7 +91,10 @@ não eram visíveis em revisão estática:
    comprimento insuficiente.
 
 Após as correções, a suíte completa do módulo (`:app:testDebugUnitTest`,
-sem filtro, cobrindo todas as 21 fases) passou com sucesso.
+sem filtro, cobrindo todas as 21 fases) passou com sucesso. O relatório HTML
+do Gradle confirma, especificamente para esta fase: `MasterPasswordPolicyTest`
+com 24 testes e `MasterPasswordPolicyArchitectureTest` com 10 testes, ambos
+com 0 falhas e 100% de taxa de sucesso (34 testes no total da Phase 21).
 
 ## Critério de aceite
 
