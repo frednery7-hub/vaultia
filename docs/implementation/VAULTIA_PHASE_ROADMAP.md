@@ -12,6 +12,8 @@ Após a Phase 17:
 
 ```text
 17 / 40 = 42.5%
+```
+
 ## 75% Checkpoint — Foundation Security Audit
 
 Status: aprovado.
