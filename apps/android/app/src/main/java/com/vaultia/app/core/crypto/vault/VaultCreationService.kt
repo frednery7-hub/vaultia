@@ -3,10 +3,13 @@ package com.vaultia.app.core.crypto.vault
 import com.vaultia.app.core.crypto.kdf.KdfDerivationOutcome
 import com.vaultia.app.core.crypto.kdf.KdfDeriver
 import com.vaultia.app.core.crypto.kdf.KdfProfileCatalog
+import com.vaultia.app.core.crypto.salt.SaltGenerationResult
+import com.vaultia.app.core.crypto.salt.SaltGenerator
 import com.vaultia.app.core.security.password.MasterPasswordPolicy
 
 class VaultCreationService(
     private val kdfDeriver: KdfDeriver,
+    private val saltGenerator: SaltGenerator? = null,
     private val headerEncoder: (VaultHeader) -> String = VaultHeaderSerializer::encode,
     private val headerDecoder: (String) -> VaultHeaderSerializationResult = VaultHeaderSerializer::decode,
 ) {
@@ -56,6 +59,34 @@ class VaultCreationService(
                 header = header,
                 serializedHeader = serializedHeader,
                 kdfResult = kdfResult,
+            ),
+        )
+    }
+
+    fun createWithGeneratedSalt(
+        request: VaultCreationWithoutExternalSaltRequest,
+    ): VaultCreationResult {
+        val passwordValidation = MasterPasswordPolicy.validate(request.masterPassword)
+        if (!passwordValidation.isValid) {
+            return VaultCreationResult.Failure(VaultCreationError.InvalidMasterPassword)
+        }
+
+        val generator = saltGenerator
+            ?: return VaultCreationResult.Failure(VaultCreationError.SaltGenerationFailed)
+
+        val saltResult = generator.generateRecommendedSalt()
+        val salt = when (saltResult) {
+            is SaltGenerationResult.Success -> saltResult.saltCopy()
+            is SaltGenerationResult.Failure -> {
+                return VaultCreationResult.Failure(VaultCreationError.SaltGenerationFailed)
+            }
+        }
+
+        return create(
+            VaultCreationRequest(
+                masterPassword = request.masterPassword,
+                salt = salt,
+                createdAtEpochMillis = request.createdAtEpochMillis,
             ),
         )
     }
