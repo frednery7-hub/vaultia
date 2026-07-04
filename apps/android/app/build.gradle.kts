@@ -49,4 +49,16 @@ kotlin {
 
 dependencies {
     testImplementation("junit:junit:4.13.2")
+
+    // Phase 22 — KDF Dependency Evaluation: dependência adicionada
+    // exclusivamente para medição de impacto no APK e benchmark isolado.
+    // NÃO integrada a CryptoService nem a qualquer fluxo real do app
+    // nesta fase. Ver docs/implementation/ANDROID_FOUNDATION_PHASE_22_PLAN.md.
+    implementation("com.lambdapioneer.argon2kt:argon2kt:1.6.0")
+
+    // Phase 22 — testes instrumentados (primeira vez no projeto).
+    // Necessárias para resolver androidx.test.ext.junit.runners.AndroidJUnit4
+    // usado pelo benchmark Argon2id em androidTest/.
+    androidTestImplementation("androidx.test.ext:junit:1.2.1")
+    androidTestImplementation("androidx.test:runner:1.6.2")
 }
