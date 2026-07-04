@@ -173,7 +173,7 @@ considerado.
 ### AUDIT-2026-06-29-06 — `._*` quebra `assembleRelease` no volume externo (LOW)
 
 `./gradlew assembleRelease` falhou quando rodado diretamente do
-pendrive (`/Volumes/KINGSTON/vaultia`) por causa de arquivos AppleDouble
+pendrive (`<local-workspace>`) por causa de arquivos AppleDouble
 `._*` que o macOS cria automaticamente em volumes formatados como
 HFS+/exFAT. O mesmo comando passou quando rodado em cópia temporária
 do projeto em `/tmp`.

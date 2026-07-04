@@ -41,7 +41,7 @@ O Android SDK principal ainda está no armazenamento interno do Mac.
 
 O AVD/emulador do projeto deverá ser criado na próxima fase usando:
 
-- `ANDROID_AVD_HOME=/Volumes/KINGSTON/vaultia/.android-avd`
+- `ANDROID_AVD_HOME=<local-android-avd>`
 
 ## Validações Executadas
 

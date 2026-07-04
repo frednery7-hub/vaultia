@@ -66,7 +66,7 @@ Vaultia_Pixel5_API36_USB
 
 Local:
 
-/Volumes/KINGSTON/vaultia/.android-avd
+<local-android-avd>
 
 O emulador não foi usado como evidência final porque o Mac estava com pouco espaço interno livre, tornando o Android Emulator instável mesmo com o AVD salvo no pen drive.
 

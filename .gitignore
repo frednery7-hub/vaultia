@@ -82,3 +82,4 @@ docs/evidence/**/*.jpeg
 docs/evidence/**/*.webp
 context-output.txt
 audit-50-output.txt
+apps/android/local.properties
