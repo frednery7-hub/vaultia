@@ -1,17 +1,15 @@
-package com.vaultia.app.core.crypto.vault
+package com.vaultia.app.core.crypto.vault.item
 
 import java.io.File
 import org.junit.Assert.assertFalse
 import org.junit.Test
 
-class VaultHeaderArchitectureTest {
+class VaultItemSerializationArchitectureTest {
     @Test
-    fun vaultHeaderSourcesDoNotImportAndroidUiStorageOrCryptoImplementations() {
-        val sourceFiles = File("src/main/java/com/vaultia/app/core/crypto/vault")
+    fun vaultItemSerializationSourcesDoNotImportAndroidStorageIoCryptoOrLoggingFrameworks() {
+        val sourceFiles = File("src/main/java/com/vaultia/app/core/crypto/vault/item")
             .walkTopDown()
             .filter { file -> file.isFile && file.extension == "kt" }
-            .filter { file -> !file.path.contains("/item/") }
-            .filter { file -> !file.path.contains("/payload/") }
             .toList()
 
         val forbiddenPatterns = listOf(
@@ -19,17 +17,18 @@ class VaultHeaderArchitectureTest {
             "import androidx.",
             "import com.vaultia.app.feature.",
             "import com.vaultia.app.core.storage",
-            "import androidx.room",
-            "import androidx.datastore",
-            "SQLite",
+            "import java.io.",
+            "import java.nio.",
             "Room",
             "DataStore",
-            "SecureRandom",
-            "Argon2Kt",
-            "Argon2Mode",
-            "Cipher",
-            "SecretKey",
+            "SQLite",
+            "SharedPreferences",
             "KeyStore",
+            "javax.crypto.",
+            "SecureRandom",
+            "File(",
+            "println",
+            "Log.",
         )
 
         for (file in sourceFiles) {
