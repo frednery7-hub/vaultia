@@ -12,15 +12,18 @@ class Argon2idKdfDeriver(
             parallelism,
             outputLengthBytes,
         ->
-        Argon2Kt().hash(
-            mode = Argon2Mode.ARGON2_ID,
-            password = password,
-            salt = salt,
-            tCostInIterations = iterations,
-            mCostInKibibyte = memoryCostKiB,
-            parallelism = parallelism,
-            hashLengthInBytes = outputLengthBytes,
-        )
+        Argon2Kt()
+            .hash(
+                mode = Argon2Mode.ARGON2_ID,
+                password = password,
+                salt = salt,
+                tCostInIterations = iterations,
+                mCostInKibibyte = memoryCostKiB,
+                parallelism = parallelism,
+                hashLengthInBytes = outputLengthBytes,
+            )
+            .rawHashAsHexadecimal()
+            .hexToByteArray()
     },
 ) : KdfDeriver {
     override fun derive(
@@ -72,4 +75,14 @@ fun interface Argon2idHashFunction {
         parallelism: Int,
         outputLengthBytes: Int,
     ): ByteArray
+}
+
+private fun String.hexToByteArray(): ByteArray {
+    require(length % 2 == 0) {
+        "Hexadecimal string must have an even length."
+    }
+
+    return ByteArray(length / 2) { index ->
+        substring(index * 2, index * 2 + 2).toInt(16).toByte()
+    }
 }
