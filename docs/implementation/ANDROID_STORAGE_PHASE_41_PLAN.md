@@ -10,6 +10,119 @@ Storage Architecture Boundary
 
 ## Contexto
 
-A Android Foundation foi concluÃ­da em v0.8.0-foundation, com 40 / 40 fases concluÃ­das e Final Audit Gate aprovado sem ressalvas.
+A Android Foundation foi concluÃ­da em `v0.8.0-foundation`, com 40 / 40 fases concluÃ­das e Final Audit Gate aprovado sem ressalvas.
 
-A Phase 41 abre o macrobloco de storage. Esta fase ainda nÃ£o cria persistÃªncia real. O objetivo Ã© definir a arquitetura, a classificaÃ§Ã£o de dados e as regras de boundary antes de qualquer Room, SQLite, DataStore, SharedPreferences, File I/O, Keystore, biometria, backup/export ou UI™X[‚‚ˆÈÈØš™]]›Â‚‘Yš[š\ˆHœ›ÛZ\˜H\œ]Z]]\˜[ÈİÜ˜YÙHØØ[È˜][XK‚‚H˜\ÙH]™HØİ[Y[\‚‚‹HY]YYÜÈ0êXÛšXÛÜÈ\›Z]YÜÎÂ‹H^[ØYÈ]YH]™[H^\İ\ˆ\[˜\ÈÜš\ÙÜ˜Y˜YÜÎÂ‹HYÜÈ]YH[˜ØHÙ[HÙ\ˆ\œÚ\İYÜÎÂ‹HÙ\\˜péğèÛÈ[™HİÜ˜YÙKÜ\ÈHRNÂ‹H[Ù[È[›ÈHİÜ˜YÙH0ëXœšYÈØØ[Â‹HÜš]0ê\š[ÜÈ\˜H˜\Ù\È]\˜\ÈH[\[Y[péğèÛË‚‚ˆÈÈXÚ\ğèÛÈ\œ]Z]]\˜[[šXÚX[‚“[Ù[È[›ÎˆİÜ˜YÙH0ëXœšYÈØØ[‚‚‹HÔS]KÔ›ÛÛH]\›ÎˆY]YYÜÈ0êXÛšXÛÜÈH0ë[™XÙ\ÈÙYİ\›ÜË‚‹H\š]˜]Hš[\È]\›Îˆ^[ØYÈÜš\ÙÜ˜Y˜YÜÈH\œ]Z]›ÜÈš[°è\š[ÜÈÜš\ÙÜ˜Y˜YÜË‚‹HÙ^\İÜ™H]\›Îˆ›İpéğèÛÈ]^[X\ˆH˜][Ù^H]X[™È\Xğè]™[‚‹HX\İ\ˆ\ÜİÛÜ™ˆ[˜ØH\œÚ\İYK‚‹H\š]™YÙ^Nˆ[˜ØH\œÚ\İYK‚‹HZ[^ˆ[˜ØH\œÚ\İYË‚‚”™YÜ˜\ÈHÛ\ÜÚYšXØpéğèÛÈHYÜÂ‚”ÙH^\İ\ˆ[HY]YYÜÈ0êXÛšXÛÜÎ‚‚‹HQ0êXÛšXÛÈ[X]0ìÜš[ÎÂ‹H\ÈÈ][NÂ‹H[Y\İ[\È0ê˜ÛšXÛÜÎÂ‹H™\œğèÛÈÈ›Ü›X]ÎÂ‹HÛZ\›È0êXÛšXÛÈ\˜H^[ØYÜš\ÙÜ˜Y˜YË‚‚‘]™H^\İ\ˆ\[˜\ÈÜš\ÙÜ˜Y˜YÎ‚‚‹H0ë][È™X[È][NÂ‹H\Ù\›˜[YNÂ‹HT“Ù[œğë]™[Â‹H›İNÂ‹HÙ[šNÂ‹HÚÙ[Â‹HÙYY˜\ÙNÂ‹HØİ[Y[ÎÂ‹H›İÎÂ‹H]X[]Y\ˆÛÛpî™È\ØÛÛYÈ[È\İpè\š[Ë‚‚“[˜ØHÙHÙ\ˆ\œÚ\İYÎ‚‚‹HÙ[šHY\İ˜NÂ‹H\š]™YÙ^NÂ‹H˜][Ù^H[HÛ\›ÎÂ‹HZ[^\ØÜš\ÙÜ˜Y˜YÎÂ‹HÛÛ~™È™]™[YÈ˜HRNÂ‹HÙÜÈHÙXÜ™]ÎÂ‹HİXÚÈ˜XÙ\ÈÛÛ[™ÈX]\šX[Ù[œğë]™[‚‚ˆÈÈ™\]Z\Ú]ÜÈHÙYİ\˜[°éØB‚‹H˜[ÈYXÚ[Û˜\ˆ[™›ÚYœ\›Z\ÜÚ[Û‹’S•T“‘U‚‹H˜[ÈÜšX\ˆ˜XÚÙ[™‚‹H˜[ÈÜšX\ˆÛİYŞ[˜Ë‚‹H˜[ÈÜšX\ˆİÜ˜YÙH™X[™\İH˜\ÙK‚‹H˜[ÈYXÚ[Û˜\ˆ›ÛÛH™\İH˜\ÙK‚‹H˜[ÈYXÚ[Û˜\ˆÔS]H\™]È™\İH˜\ÙK‚‹H˜[ÈYXÚ[Û˜\ˆ]TİÜ™H™\İH˜\ÙK‚‹H˜[ÈYXÚ[Û˜\ˆÚ\™Y™Y™\™[˜Ù\È™\İH˜\ÙK‚‹H˜[ÈYXÚ[Û˜\ˆš[HKÓÈ™X[™\İH˜\ÙK‚‹H˜[ÈÛÛ™Xİ\ˆÜ\ÈHİÜ˜YÙH™\İH˜\ÙK‚‹H˜[ÈÛÛ™Xİ\ˆXÜ\0èRK‚‹H˜[È™[™\š^˜\ˆÙXÜ™]È™XZ\Ë‚‹H˜[È[\[Y[\ˆÙ^\İÜ™K‚‹H˜[È[\[Y[\ˆš[ÛY]šXK‚‹H˜[È[\[Y[\ˆ˜XÚİ\Ù^Ü‚‹H˜[È[\[Y[\ˆ]\ÚX›H[šXXš[]K‚‚ˆÈÈÜš]0ê\š[ÜÈHXÙZ]B‚‹H[›ÈH\ÙHHÜšXYË‚‹H\œ]Z]]\˜HHİÜ˜YÙH[™Z˜YK‚‹HÛ\ÜÚYšXØpéğèÛÈHYÜÈ[™Z˜YK‚‹H™YÜ˜\ÈH›İ[™\H[™Z˜Y\Ë‚‹H™[š[XH[\[Y[XpéğèÛÈ™X[HİÜ˜YÙHÜšXYK‚‹H™[š[XH\›Z\ÜğèÛÈ[™›ÚYYXÚ[Û˜YK‚‹H\İ\È[š]0è\š[ÜÈÛÛ[X[H\ÜØ[™Ë‚‹HÚXÚÈ[™›ÚYÛÛ[XH\ÜØ[™Ë‚‹HTÈÛÛ[XHÙ[H[™›ÚYœ\›Z\ÜÚ[Û‹’S•T“‘U
+A Phase 41 abre o macrobloco de storage. Esta fase ainda nÃ£o cria persistÃªncia real. O objetivo Ã© definir arquitetura, classificaÃ§Ã£o de dados e regras de boundary antes de qualquer Room, SQLite, DataStore, SharedPreferences, File I/O, Keystore, biometria, backup/export ou UI real.
+
+---
+
+## Objetivo
+
+Definir a fronteira arquitetural do storage local do Vaultia.
+
+A fase deve documentar:
+
+- metadados tÃ©cnicos permitidos;
+- payloads que devem existir apenas criptografados;
+- dados que nunca podem ser persistidos;
+- separaÃ§Ã£o entre storage, crypto e UI;
+- modelo alvo de storage hÃ­brido local;
+- critÃ©rios para fases futuras de implementaÃ§Ã£o.
+
+---
+
+## DecisÃ£o Arquitetural Inicial
+
+Modelo alvo: storage hÃ­brido local.
+
+```text
+SQLite/Room futuro: metadados tÃ©cnicos e Ã­ndices seguros.
+App private files futuro: payloads criptografados e arquivos binÃ¡rios criptografados.
+Keystore futuro: proteÃ§Ã£o auxiliar da Vault Key quando aplicÃ¡vel.
+Master password: nunca persistida.
+Derived key: nunca persistida.
+Plaintext: nunca persistido.
+```
+
+---
+
+## Arquivos Planejados
+
+```text
+docs/architecture/STORAGE_ARCHITECTURE.md
+docs/architecture/STORAGE_DATA_CLASSIFICATION.md
+docs/architecture/STORAGE_BOUNDARY_RULES.md
+docs/implementation/ANDROID_STORAGE_PHASE_41_PLAN.md
+```
+
+CÃ³digo planejado nesta fase: nenhum.
+
+---
+
+## ClassificaÃ§Ã£o de Dados
+
+### Pode existir em metadados tÃ©cnicos
+
+- ID tÃ©cnico aleatÃ³rio;
+- tipo do item;
+- timestamps tÃ©cnicos;
+- versÃ£o do formato;
+- ponteiro tÃ©cnico para payload criptografado.
+
+### Deve existir apenas criptografado
+
+- tÃ­tulo real do item;
+- username;
+- URL sensÃ­vel;
+- nota;
+- senha;
+- token;
+- seed phrase;
+- documento;
+- foto;
+- qualquer conteÃºdo escolhido pelo usuÃ¡rio.
+
+### Nunca pode ser persistido
+
+- senha mestra;
+- derived key;
+- vault key em claro;
+- plaintext descriptografado;
+- conteÃºdo revelado na UI;
+- logs de secrets;
+- stack traces contendo material sensÃ­vel.
+
+---
+
+## Requisitos de SeguranÃ§a
+
+- NÃ£o adicionar `android.permission.INTERNET`.
+- NÃ£o criar backend.
+- NÃ£o criar cloud sync.
+- NÃ£o criar storage real nesta fase.
+- NÃ£o adicionar Room nesta fase.
+- NÃ£o adicionar SQLite direto nesta fase.
+- NÃ£o adicionar DataStore nesta fase.
+- NÃ£o adicionar SharedPreferences nesta fase.
+- NÃ£o adicionar File I/O real nesta fase.
+- NÃ£o conectar crypto a storage nesta fase.
+- NÃ£o conectar decrypt Ã  UI.
+- NÃ£o renderizar secrets reais.
+- NÃ£o implementar Keystore.
+- NÃ£o implementar biometria.
+- NÃ£o implementar backup/export.
+- NÃ£o implementar plausible deniability.
+
+---
+
+## CritÃ©rios de Aceite
+
+- Plano da Phase 41 criado.
+- Arquitetura de storage planejada.
+- ClassificaÃ§Ã£o de dados planejada.
+- Regras de boundary planejadas.
+- Nenhuma implementaÃ§Ã£o real de storage criada.
+- Nenhuma permissÃ£o Android adicionada.
+- Testes unitÃ¡rios continuam passando.
+- Check Android continua passando.
+- APK continua sem `android.permission.INTERNET`.
