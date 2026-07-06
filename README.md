@@ -10,11 +10,13 @@ The project is intentionally being built in security-first phases. Real secret s
 
 ```text
 Project type:        Android local-first vault
-Current phase:       Phase 22 completed
+Current phase:       Android Foundation completed — Phase 40 / 40
 Security model:      No backend, no cloud sync, no INTERNET permission
-KDF candidate:       Argon2id via lambdapioneer/argon2kt
+KDF:                 Argon2id implemented through isolated contracts
+Foundation progress: 100%
 Real storage:        Not enabled yet
-Real encryption:     Not integrated yet
+Real vault UI:       Not enabled yet
+Encryption boundary: AES-GCM boundary implemented
 Repository state:    Public-safe portfolio repository
 ```
 
@@ -47,6 +49,23 @@ Vaultia is not presented as a finished password manager yet. The current goal is
 - Master password policy contract.
 - Argon2id KDF dependency evaluation.
 - Instrumented benchmark for KDF candidate parameters.
+- Argon2id KDF contract and implementation.
+- KDF profiles and public VaultHeader contract.
+- VaultHeader serialization contract.
+- Vault creation draft without persistence.
+- Secure salt generation contract.
+- Vault creation draft with generated salt.
+- AES-GCM authenticated encryption boundary.
+- Vault payload encryption draft.
+- Vault payload decryption draft.
+- Vault payload serialization contract.
+- Encrypted vault item draft contract.
+- Vault item serialization contract.
+- Secure frontend architecture documentation.
+- Secure UI state contracts.
+- Secure screen guard contracts.
+- Authentication friction and critical action contracts.
+- Local threat detection contracts.
 - Public-safe audit evidence organization.
 
 ---
@@ -55,21 +74,28 @@ Vaultia is not presented as a finished password manager yet. The current goal is
 
 The following capabilities are intentionally out of scope at the current phase:
 
-- Real password unlock flow.
+- Real production unlock flow.
 - Persistent vault storage.
-- AES-GCM envelope encryption.
+- Real password, note, photo, or document storage.
+- Real vault UI connected to decryption.
 - Android Keystore integration.
 - Biometric unlock.
 - Backup/export flow.
-- Real password, note, photo, or document storage.
+- Real Android `FLAG_SECURE` integration.
+- Real Android root, debugger, emulator, hooking, tampering, overlay, or accessibility detection.
 - Internet access.
 - Cloud sync.
+- Backend integration.
+- Duress password.
+- Hidden vault.
+- Decoy vault.
+- Plausible deniability.
 
 This is deliberate. Vaultia is being built as a security-sensitive product, not as a UI-first prototype that stores data before the protection model is ready.
 
 ---
 
-## KDF Evaluation
+## KDF and Encryption Foundation
 
 Phase 22 evaluates `com.lambdapioneer.argon2kt:argon2kt:1.6.0` as the Argon2id candidate for future master-key derivation.
 
@@ -80,7 +106,11 @@ FAST:         32 MiB memory, 2 iterations, parallelism 1, 32-byte output
 CONSERVATIVE: 64 MiB memory, 2 iterations, parallelism 1, 32-byte output
 ```
 
-The dependency is approved to continue as the official KDF candidate for the next phase, under an isolated contract. Final production parameters still require physical-device validation before release.
+Later phases created the KDF contract, Argon2id implementation, KDF profiles, VaultHeader model, and VaultHeader serialization.
+
+AES-GCM authenticated encryption boundaries were also created, followed by payload encryption, payload decryption, payload serialization, encrypted item draft, and item serialization contracts.
+
+Final production parameters still require physical-device validation before a production release.
 
 See:
 
@@ -160,15 +190,18 @@ See:
 
 Next engineering areas include:
 
-- KDF contract creation.
-- Isolated KDF implementation.
-- Error handling for native library loading.
-- Future encrypted vault header design.
-- Secure storage architecture.
-- Envelope encryption design.
+- Android Foundation Final Audit report.
+- Real storage architecture.
 - Android Keystore evaluation.
+- Real unlock flow.
+- Real vault UI.
+- Real `FLAG_SECURE` integration.
+- Biometric convenience layer.
+- Backup/export design.
+- Native local threat detection implementation.
+- Physical-device validation for KDF parameters and app behavior.
 
-The roadmap remains milestone-based and is not updated after every phase.
+The roadmap remains milestone-based and is not updated after every small implementation step.
 
 ---
 
