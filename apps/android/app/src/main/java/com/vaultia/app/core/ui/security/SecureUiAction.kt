@@ -1,0 +1,14 @@
+package com.vaultia.app.core.ui.security
+
+enum class SecureUiAction {
+    START_AUTHENTICATION,
+    AUTHENTICATION_SUCCEEDED,
+    AUTHENTICATION_FAILED,
+    REQUEST_REVEAL,
+    HIDE_SECRET,
+    APP_BACKGROUND,
+    APP_FOREGROUND,
+    REVEAL_TIMEOUT,
+    REQUEST_LOCK,
+    LOCK_COMPLETED,
+}
