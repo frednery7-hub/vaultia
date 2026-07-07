@@ -4,7 +4,6 @@ import com.vaultia.app.core.storage.model.EncryptedPayloadPointer
 import com.vaultia.app.core.storage.model.StorageRecordId
 import com.vaultia.app.core.storage.model.StorageRecordMetadata
 import com.vaultia.app.core.storage.model.StorageRecordType
-import com.vaultia.app.core.storage.service.StorageService
 import com.vaultia.app.core.storage.service.StorageServiceError
 import com.vaultia.app.core.storage.service.StorageServiceResult
 import org.junit.Assert.assertEquals
@@ -26,13 +25,6 @@ class StorageCompositionRootTest {
             updatedAtEpochMillis = 1_000L,
             formatVersion = 1,
         )
-    }
-
-    @Test
-    fun createsContainerWithStorageServiceBoundary() {
-        val container = StorageCompositionRoot.createInMemoryContainer()
-
-        assertTrue(container.storageService is StorageService)
     }
 
     @Test
