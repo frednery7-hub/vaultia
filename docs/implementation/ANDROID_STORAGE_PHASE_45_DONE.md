@@ -70,21 +70,7 @@ A fachada centraliza o acesso aos use cases e evita que camadas superiores depen
 
 ---
 
-## Fluxos Testados
-
-- salvar metadado via service;
-- buscar metadado via service;
-- mapear duplicidade como `DuplicateRecord`;
-- retornar `null` para busca inexistente;
-- listar metadados na ordem do repository;
-- deletar metadado existente;
-- mapear deleção inexistente como `RecordNotFound`.
-
----
-
 ## Garantias de Segurança
-
-A Phase 45 preserva as seguintes fronteiras:
 
 - sem Room;
 - sem SQLite;
@@ -107,41 +93,13 @@ O teste arquitetural impede APIs de Android, Compose/UI, Room, Java/Kotlin I/O, 
 
 ## Evidência de Validação
 
-### Sanity Check
-
 ```text
 CORRUPTED_CONTENT_FOUND=False
-SANITY_STATUS=0
-```
-
-### Unit Tests
-
-```bash
-./gradlew testDebugUnitTest
-```
-
-Resultado:
-
-```text
 BUILD SUCCESSFUL
-TEST_STATUS=0
-```
-
-### Full Android Check
-
-```bash
-./scripts/check-android.sh
-```
-
-Resultado:
-
-```text
 VAULTIA_ANDROID_CHECK_OK
 Manifest source: sem android.permission.INTERNET
 APK binary: sem android.permission.INTERNET
-Git dangerous files audit: OK
 APK SHA-256: a87d55a907ce3aaa8ad2fa6a65c30311e2650b42f3869f99728cafd13a2be550
-CHECK_STATUS=0
 ```
 
 ---
