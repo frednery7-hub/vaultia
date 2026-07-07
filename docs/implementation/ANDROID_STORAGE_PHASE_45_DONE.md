@@ -48,7 +48,11 @@ docs/implementation/ANDROID_STORAGE_PHASE_45_DONE.md
 ```text
 863596c docs: add phase 45 storage service boundary plan
 9552add feat: add storage service boundary
+a90f250 docs: add phase 45 storage service boundary completion report
+0af956d docs: add phase 45 storage service boundary completion report
 ```
+
+Observação: o commit `0af956d` substituiu uma versão anterior do relatório e removeu conteúdo documental útil. Este documento recompõe explicitamente as seções de fluxos testados e evidências detalhadas, sem alterar código de produção.
 
 ---
 
@@ -70,7 +74,23 @@ A fachada centraliza o acesso aos use cases e evita que camadas superiores depen
 
 ---
 
+## Fluxos Testados
+
+- salvar metadado via service;
+- buscar metadado via service;
+- mapear duplicidade como `DuplicateRecord`;
+- retornar `null` para busca inexistente;
+- listar metadados na ordem do repository;
+- deletar metadado existente;
+- mapear deleção inexistente como `RecordNotFound`.
+
+Esses fluxos validam que a fachada não altera semântica de domínio, apenas centraliza a delegação para os use cases.
+
+---
+
 ## Garantias de Segurança
+
+A Phase 45 preserva as seguintes fronteiras:
 
 - sem Room;
 - sem SQLite;
@@ -89,17 +109,51 @@ A fachada centraliza o acesso aos use cases e evita que camadas superiores depen
 
 O teste arquitetural impede APIs de Android, Compose/UI, Room, Java/Kotlin I/O, SQLite, DataStore, SharedPreferences e tokens de crypto/secrets no pacote de service.
 
+Observação técnica: `Files` e `Path` aparecem apenas nos testes arquiteturais para inspeção dos arquivos de produção. Eles não aparecem no pacote de produção do service.
+
 ---
 
 ## Evidência de Validação
 
+### Sanity Check
+
 ```text
 CORRUPTED_CONTENT_FOUND=False
+DONE_STATUS=0
+```
+
+### Unit Tests
+
+Comando:
+
+```bash
+./gradlew testDebugUnitTest
+```
+
+Resultado:
+
+```text
 BUILD SUCCESSFUL
+TEST_STATUS=0
+```
+
+### Full Android Check
+
+Comando:
+
+```bash
+./scripts/check-android.sh
+```
+
+Resultado:
+
+```text
 VAULTIA_ANDROID_CHECK_OK
 Manifest source: sem android.permission.INTERNET
 APK binary: sem android.permission.INTERNET
+Git dangerous files audit: OK
 APK SHA-256: a87d55a907ce3aaa8ad2fa6a65c30311e2650b42f3869f99728cafd13a2be550
+CHECK_STATUS=0
 ```
 
 ---
@@ -114,4 +168,5 @@ Architecture test: implemented
 Real storage implementation: not added
 Internet permission: not added
 Android validation: passed
+Documentation audit: fixed after APPROVED WITH DOC FIX verdict
 ```
