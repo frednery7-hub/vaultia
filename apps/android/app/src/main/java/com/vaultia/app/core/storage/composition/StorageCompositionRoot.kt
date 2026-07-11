@@ -1,10 +1,6 @@
 package com.vaultia.app.core.storage.composition
 
-import android.content.Context
-import androidx.room.Room
-import com.vaultia.app.core.storage.local.VaultiaLocalDatabase
 import com.vaultia.app.core.storage.repository.InMemoryStorageRepository
-import com.vaultia.app.core.storage.repository.RoomStorageRepository
 import com.vaultia.app.core.storage.service.DefaultStorageService
 import com.vaultia.app.core.storage.usecase.DeleteStorageRecordMetadataUseCase
 import com.vaultia.app.core.storage.usecase.FindStorageRecordMetadataUseCase
@@ -14,32 +10,6 @@ import com.vaultia.app.core.storage.usecase.SaveStorageRecordMetadataUseCase
 object StorageCompositionRoot {
     fun createInMemoryContainer(): StorageContainer {
         val repository = InMemoryStorageRepository()
-
-        val saveStorageRecordMetadataUseCase = SaveStorageRecordMetadataUseCase(repository)
-        val findStorageRecordMetadataUseCase = FindStorageRecordMetadataUseCase(repository)
-        val listStorageRecordMetadataUseCase = ListStorageRecordMetadataUseCase(repository)
-        val deleteStorageRecordMetadataUseCase = DeleteStorageRecordMetadataUseCase(repository)
-
-        val storageService = DefaultStorageService(
-            saveStorageRecordMetadataUseCase = saveStorageRecordMetadataUseCase,
-            findStorageRecordMetadataUseCase = findStorageRecordMetadataUseCase,
-            listStorageRecordMetadataUseCase = listStorageRecordMetadataUseCase,
-            deleteStorageRecordMetadataUseCase = deleteStorageRecordMetadataUseCase,
-        )
-
-        return StorageContainer(
-            storageService = storageService,
-        )
-    }
-
-    fun createLocalContainer(context: Context): StorageContainer {
-        val database = Room.databaseBuilder(
-            context.applicationContext,
-            VaultiaLocalDatabase::class.java,
-            "vaultia_local_metadata.db"
-        ).build()
-        
-        val repository = RoomStorageRepository(database.storageRecordMetadataDao())
 
         val saveStorageRecordMetadataUseCase = SaveStorageRecordMetadataUseCase(repository)
         val findStorageRecordMetadataUseCase = FindStorageRecordMetadataUseCase(repository)
