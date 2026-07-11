@@ -1,5 +1,6 @@
 package com.vaultia.app.core.storage.composition
 
+import com.vaultia.app.core.storage.header.InMemoryVaultHeaderRepository
 import com.vaultia.app.core.storage.payload.InMemoryPayloadRepository
 import com.vaultia.app.core.storage.repository.InMemoryStorageRepository
 import com.vaultia.app.core.storage.service.DefaultStorageService
@@ -15,6 +16,10 @@ object StorageCompositionRoot {
             SaveStorageRecordMetadataUseCase(repository), FindStorageRecordMetadataUseCase(repository),
             ListStorageRecordMetadataUseCase(repository), DeleteStorageRecordMetadataUseCase(repository)
         )
-        return StorageContainer(storageService = storageService, payloadRepository = InMemoryPayloadRepository())
+        return StorageContainer(
+            storageService = storageService,
+            payloadRepository = InMemoryPayloadRepository(),
+            headerRepository = InMemoryVaultHeaderRepository()
+        )
     }
 }

@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.vaultia.app.core.storage.composition.StorageContainer
 import com.vaultia.app.core.storage.local.VaultiaLocalDatabase
+import com.vaultia.app.core.storage.local.header.FileVaultHeaderRepository
 import com.vaultia.app.core.storage.local.payload.FilePayloadRepository
 import com.vaultia.app.core.storage.local.repository.RoomStorageRepository
 import com.vaultia.app.core.storage.service.DefaultStorageService
@@ -21,9 +22,15 @@ object LocalStorageCompositionRoot {
             SaveStorageRecordMetadataUseCase(repository), FindStorageRecordMetadataUseCase(repository),
             ListStorageRecordMetadataUseCase(repository), DeleteStorageRecordMetadataUseCase(repository)
         )
+        
+        val vaultiaDir = File(context.filesDir, "vaultia_data")
+        val payloadsDir = File(vaultiaDir, "payloads")
+        val headerDir = File(vaultiaDir, "header")
+        
         return StorageContainer(
             storageService = storageService,
-            payloadRepository = FilePayloadRepository(File(context.filesDir, "vaultia_payloads"))
+            payloadRepository = FilePayloadRepository(payloadsDir),
+            headerRepository = FileVaultHeaderRepository(headerDir)
         )
     }
 }
