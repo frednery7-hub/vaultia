@@ -8,6 +8,7 @@ object VaultItemPayloadSerializer {
     
     private const val FIELD_TYPE = "type"
     private const val FIELD_VERSION = "version"
+    private const val FIELD_TITLE = "title"
     
     private const val TYPE_PASSWORD = "PASSWORD"
     private const val TYPE_NOTE = "NOTE"
@@ -19,6 +20,7 @@ object VaultItemPayloadSerializer {
         val lines = mutableListOf<String>()
         lines.add(MAGIC)
         lines.add("$FIELD_VERSION=${payload.version}")
+        lines.add("$FIELD_TITLE=${encodeBase64(payload.title)}")
         
         when (payload) {
             is PasswordPayload -> {
@@ -58,11 +60,12 @@ object VaultItemPayloadSerializer {
             fields[name] = value
         }
         
-        if (!fields.containsKey(FIELD_TYPE) || !fields.containsKey(FIELD_VERSION)) {
+        if (!fields.containsKey(FIELD_TYPE) || !fields.containsKey(FIELD_VERSION) || !fields.containsKey(FIELD_TITLE)) {
             return VaultItemPayloadSerializationResult.Failure(VaultItemPayloadSerializationError.MissingField)
         }
         
         val version = fields[FIELD_VERSION]?.toIntOrNull() ?: return VaultItemPayloadSerializationResult.Failure(VaultItemPayloadSerializationError.InvalidFormatVersion)
+        val title = decodeBase64(fields.getValue(FIELD_TITLE))
         
         return try {
             when (fields[FIELD_TYPE]) {
@@ -71,6 +74,7 @@ object VaultItemPayloadSerializer {
                         return VaultItemPayloadSerializationResult.Failure(VaultItemPayloadSerializationError.MissingField)
                     }
                     val payload = PasswordPayload(
+                        title = title,
                         username = decodeBase64(fields.getValue("username")),
                         passwordValue = decodeBase64(fields.getValue("passwordValue")),
                         url = decodeBase64(fields.getValue("url")),
@@ -82,6 +86,7 @@ object VaultItemPayloadSerializer {
                 TYPE_NOTE -> {
                     if (!fields.containsKey("text")) return VaultItemPayloadSerializationResult.Failure(VaultItemPayloadSerializationError.MissingField)
                     val payload = NotePayload(
+                        title = title,
                         text = decodeBase64(fields.getValue("text")),
                         version = version
                     )
