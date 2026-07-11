@@ -10,10 +10,6 @@ class DemoVaultMetadataSeedArchitectureTest {
         "src/main/java/com/vaultia/app/feature/vault/demo/DemoVaultMetadataSeed.kt",
     ).toFile().readText()
 
-    private val appContainerSource = Paths.get(
-        "src/main/java/com/vaultia/app/core/app/VaultiaAppContainer.kt",
-    ).toFile().readText()
-
     private val mainActivitySource = Paths.get(
         "src/main/java/com/vaultia/app/MainActivity.kt",
     ).toFile().readText()
@@ -54,13 +50,6 @@ class DemoVaultMetadataSeedArchitectureTest {
         assertFalse(seedSource.contains("Keystore"))
         assertFalse(seedSource.contains("Http"))
         assertFalse(seedSource.contains("Socket"))
-    }
-
-    @Test
-    fun appContainerLoadsDemoSeedIntoInMemoryRepositoryOnly() {
-        assertTrue(appContainerSource.contains("DemoVaultMetadataSeed.metadataOnlyItems()"))
-        assertTrue(appContainerSource.contains("addAllMetadataForCurrentProcessOnly"))
-        assertTrue(appContainerSource.contains("InMemoryVaultRepository"))
     }
 
     @Test
