@@ -15,6 +15,7 @@ class VaultiaAppContainer(
     val vaultRepository: InMemoryVaultRepository = InMemoryVaultRepository()
     val vaultNavigator: InMemoryVaultNavigator = InMemoryVaultNavigator()
     val storageService: StorageService = storageContainer.storageService
+    val payloadRepository = storageContainer.payloadRepository
 
     init {
         vaultRepository.addAllMetadataForCurrentProcessOnly(

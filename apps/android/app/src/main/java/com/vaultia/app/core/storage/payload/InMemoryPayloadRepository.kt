@@ -5,7 +5,7 @@ import com.vaultia.app.core.storage.repository.StorageRepositoryError
 import com.vaultia.app.core.storage.repository.StorageRepositoryResult
 import java.util.concurrent.ConcurrentHashMap
 
-class InMemoryEncryptedPayloadRepository : EncryptedPayloadRepository {
+class InMemoryPayloadRepository : PayloadRepository {
     private val payloads = ConcurrentHashMap<String, ByteArray>()
     override fun savePayload(pointer: EncryptedPayloadPointer, data: ByteArray): StorageRepositoryResult<Unit> {
         payloads[pointer.value] = data.copyOf(); return StorageRepositoryResult.Success(Unit)
